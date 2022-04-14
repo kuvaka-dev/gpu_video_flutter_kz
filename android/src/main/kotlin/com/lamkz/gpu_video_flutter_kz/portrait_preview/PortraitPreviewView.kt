@@ -14,7 +14,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.daasuu.gpuv.camerarecorder.CameraRecordListener
 import com.daasuu.gpuv.camerarecorder.GPUCameraRecorder
 import com.daasuu.gpuv.camerarecorder.GPUCameraRecorderBuilder
@@ -63,7 +62,6 @@ class PortraitPreviewView(
             videoHeight = params["videoHeight"] as Int
             cameraWidth = params["cameraWidth"] as Int
             cameraHeight = params["cameraHeight"] as Int
-            Log.d("123123", "$videoWidth $videoHeight $cameraWidth $cameraHeight")
             activity.window.setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
