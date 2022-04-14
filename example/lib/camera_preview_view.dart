@@ -28,7 +28,7 @@ class _CameraPreviewViewState extends State<CameraPreviewView> {
                     const Divider(),
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: () => _onItemClick(index),
+                    onTap: () => _onItemClick(FilterType.values[index]),
                     child: ListTile(
                       title: Text(FilterType.values[index].name),
                     ),
@@ -76,8 +76,8 @@ class _CameraPreviewViewState extends State<CameraPreviewView> {
     );
   }
 
-  void _onItemClick(int index) {
-    GpuVideoFlutterKz.filterCameraRecorder(index);
+  void _onItemClick(FilterType filterType) {
+    GpuVideoFlutterKz.filterCameraRecorder(filterType);
   }
 
   void _onButtonRecordClick() {

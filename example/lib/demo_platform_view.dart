@@ -122,7 +122,7 @@ class _DemoPlatformViewState extends State<DemoPlatformView> {
                   const Divider(),
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
-                  onTap: () => _onItemClick(index),
+                  onTap: () => _onItemClick(FilterType.values[index]),
                   child: ListTile(
                     title: Text(FilterType.values[index].name),
                   ),
@@ -135,8 +135,8 @@ class _DemoPlatformViewState extends State<DemoPlatformView> {
     );
   }
 
-  void _onItemClick(int index) async {
-    String result = await GpuVideoFlutterKz.filterVideo(index);
+  void _onItemClick(FilterType filterType) async {
+    String result = await GpuVideoFlutterKz.filterVideo(filterType);
     if (result == "OK") {}
   }
 }

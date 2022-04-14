@@ -1,24 +1,18 @@
-# Title / Repository Name
-GPU Video Flutter in Android
-Using source GPU Video Flutter : https://github.com/MasayukiSuda/GPUVideo-android
-We create a Plugin for Flutter Developer who want to use this library but can not find any library for it
+# GPU Video Flutter
+- GPU Video Flutter in Android
+- Base on source GPU Video Flutter : https://github.com/MasayukiSuda/GPUVideo-android
+- We create a Plugin for Flutter Developer who want to apply filter in their own images, videos but can not find any library for it
 
-## About / Synopsis
+## About
 
-* What is it, what does it do / Abstract
-  Customize filter in your own video
-  Record videos, take images with many filters
-  Work with flash, camera back of front, ...
-  Support landscape or portrait or square camera type
+* What is it, what does it do
+    -  Customize filter in your own video
+    -  Record videos, take images with many filters
+    -  Work with flash, camera back of front, ...
+    -  Support landscape or portrait or square camera type
 
 * Project status: working/prototype
   Done 2/3 function
-
-See real examples:
-
-* <https://github.com/nuxeo/nuxeo/blob/master/README.md>
-* <https://github.com/nuxeo/nuxeo-drive/blob/master/README.md>
-* <https://github.com/nuxeo/nuxeo-sdk-ios/blob/master/README.md>
 
 ## Table of contents
 
@@ -29,28 +23,77 @@ Use for instance <https://github.com/ekalinin/github-markdown-toc>:
     >   * [Table of contents](#table-of-contents)
 >   * [Installation](#installation)
 >   * [Usage](#usage)
-      >     * [Screenshots](#screenshots)
       >     * [Features](#features)
 >   * [Code](#code)
       >     * [Content](#content)
       >     * [Requirements](#requirements)
->     * [Limitations](#limitations)
->     * [Build](#build)
->     * [Deploy (how to install build product)](#deploy-how-to-install-build-product)
 >   * [Resources (Documentation and other links)](#resources-documentation-and-other-links)
->   * [Contributing / Reporting issues](#contributing--reporting-issues)
 >   * [License](#license)
->   * [About Nuxeo](#about-nuxeo)
 
 ## Installation
-
-Sample:
-
-* From the Nuxeo Marketplace: install [the Sample Nuxeo Package](https://connect.nuxeo.com/nuxeo/site/marketplace/package/nuxeo-sample).
-* From the command line: `nuxeoctl mp-install nuxeo-sample`
-
+- Add this library into your pubspec.yaml file:
+  ```dart
+    gpu_video_flutter_kz: ^0.0.1
+  ```
+- Open Project Android in new screen
+    - Change your minSDKVersion to 21
+      ```dart
+      defaultConfig {
+          minSdkVersion 21
+      }
+      ```
+    - Add to your build.gradle (Project:android)
+      ```dart
+      maven { 
+        url 'https://jitpack.io' 
+      }
+      ```
 ## Usage
-
+- Movie Preview
+  ```dart
+  GPUMoviePreview(
+    videoUrl:
+        "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
+  )
+  ```
+    - To use Filter for this video you can use:
+  ```dart
+  GpuVideoFlutterKz.filterVideo(FilterType.BILATERAL_BLUR);
+  ```
+- Camera Recorder
+    - Init
+  ```dart
+  GPUCameraRecord(
+        cameraViewType: CameraViewType.square),
+  )
+  ```
+    * You can change type of camera to portrait or landscape otherwise.
+    - To add filter for your preview camera, just use:
+  ```dart
+  GpuVideoFlutterKz.filterCameraRecorder(filterType);
+  ```
+    - To start record:
+  ```dart
+  GpuVideoFlutterKz.recordCameraVideo();
+  ```
+    - To end record:
+  ```dart
+  String videoPath = GpuVideoFlutterKz.stopRecordCameraVideo();
+  ```
+    * Return of stop record video is video's path
+    - To switch between front and back camera:
+  ```dart
+  GpuVideoFlutterKz.switchCamera();
+  ```
+    - To turn on or off flash:
+  ```dart
+  GpuVideoFlutterKz.turnOnOffFlash();
+  ```
+    - To capture an image:
+  ```dart
+  String imagePath = GpuVideoFlutterKz.captureImage();
+  ```
+    * Return of this function is image's path
 ### Screenshots
 
 ### Features
@@ -65,49 +108,13 @@ Description, sub-modules organization...
 
 ### Requirements
 
-See [CORG/Compiling Nuxeo from sources](http://doc.nuxeo.com/x/xION)
-
-Sample: <https://github.com/nuxeo/nuxeo/blob/master/nuxeo-distribution/README.md>
-
-### Limitations
-
-Sample: <https://github.com/nuxeo-archives/nuxeo-features/tree/master/nuxeo-elasticsearch>
-
-### Build
-
-    mvn clean install
-
-Build options:
-
-* ...
-
-### Deploy (how to install build product)
-
-Direct to MP package if any. Otherwise provide steps to deploy on Nuxeo Platform:
-
-> Copy the built artifacts into `$NUXEO_HOME/templates/custom/bundles/` and activate the `custom` template.
+- Require Android Min SDK 21
 
 ## Resources (Documentation and other links)
-
-## Contributing / Reporting issues
-
-Link to JIRA component (or project if there is no component for that project). Samples:
-
-* [Link to component](https://jira.nuxeo.com/issues/?jql=project%20%3D%20NXP%20AND%20component%20%3D%20Elasticsearch%20AND%20Status%20!%3D%20%22Resolved%22%20ORDER%20BY%20updated%20DESC%2C%20priority%20DESC%2C%20created%20ASC)
-* [Link to project](https://jira.nuxeo.com/secure/CreateIssue!default.jspa?project=NXP)
+- https://github.com/MasayukiSuda/GPUVideo-android
+- https://developer.android.com/guide/topics/media/exoplayer\
+- https://developer.android.com/kotlin/coroutines
 
 ## License
 
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-
-## About Nuxeo
-
-Nuxeo Platform is an open source Content Services platform, written in Java. Data can be stored in both SQL & NoSQL databases.
-
-The development of the Nuxeo Platform is mostly done by Nuxeo employees with an open development model.
-
-The source code, documentation, roadmap, issue tracker, testing, benchmarks are all public.
-
-Typically, Nuxeo users build different types of information management solutions for [document management](https://www.nuxeo.com/solutions/document-management/), [case management](https://www.nuxeo.com/solutions/case-management/), and [digital asset management](https://www.nuxeo.com/solutions/dam-digital-asset-management/), use cases. It uses schema-flexible metadata & content models that allows content to be repurposed to fulfill future use cases.
-
-More information is available at [www.nuxeo.com](https://www.nuxeo.com).

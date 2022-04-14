@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:gpu_video_flutter_kz/filter_type.dart';
 
 class GpuVideoFlutterKz {
   static const MethodChannel _channel = MethodChannel('gpu_video_flutter_kz');
@@ -10,13 +11,15 @@ class GpuVideoFlutterKz {
     return version;
   }
 
-  static Future<String> filterVideo(int position) async {
+  static Future<String> filterVideo(FilterType filterType) async {
+    int position = FilterType.values.indexOf(filterType);
     final String result =
         await _channel.invokeMethod("filterVideo", {"position": position});
     return result;
   }
 
-  static Future<String> filterCameraRecorder(int position) async {
+  static Future<String> filterCameraRecorder(FilterType filterType) async {
+    int position = FilterType.values.indexOf(filterType);
     final String result = await _channel
         .invokeMethod("filterCameraRecorder", {"position": position});
     return result;

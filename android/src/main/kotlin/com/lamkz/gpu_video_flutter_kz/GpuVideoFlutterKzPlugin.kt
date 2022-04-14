@@ -128,8 +128,10 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
                 result.success("OK")
             }
             "captureImage" ->{
-                portraitPreviewFactory.captureImage()
-                result.success("OK")
+                portraitPreviewFactory.captureImage{
+                    result.success(it)
+                }
+
             }
             else -> {
                 result.notImplemented()

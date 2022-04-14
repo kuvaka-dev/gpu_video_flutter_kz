@@ -236,15 +236,14 @@ class PortraitPreviewView(
         }
     }
 
-    fun captureImage() {
+    fun captureImage() : String {
+        var imagePath : String? = ""
         try {
             captureBitmap(object : BitmapReadyCallbacks {
                 override fun onBitmapReady(bitmap: Bitmap?) {
                     CoroutineScope(Dispatchers.IO).launch {
-                        val imagePath: String? =
+                        imagePath =
                             getImageFilePath()
-                        if (imagePath == null)
-                            Toast.makeText(activity, "Image path Null", Toast.LENGTH_SHORT).show()
                         saveAsPngImage(bitmap!!, imagePath)
                         imagePath?.let {
                             exportPngToGallery(
@@ -258,6 +257,7 @@ class PortraitPreviewView(
         } catch (ex: Exception) {
             Toast.makeText(activity, "$ex", Toast.LENGTH_SHORT).show()
         }
+        return imagePath!!
     }
 
     private interface BitmapReadyCallbacks {

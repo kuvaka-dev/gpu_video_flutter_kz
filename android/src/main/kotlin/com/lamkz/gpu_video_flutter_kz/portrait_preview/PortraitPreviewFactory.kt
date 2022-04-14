@@ -38,7 +38,7 @@ class PortraitPreviewFactory(private val activity: Activity) :
         portraitPreviewView.turnOnOffFlash()
     }
 
-    fun captureImage() {
-        portraitPreviewView.captureImage()
+    fun captureImage(onResultPath : (String) -> Unit) {
+        onResultPath(portraitPreviewView.captureImage())
     }
 }
