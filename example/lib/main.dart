@@ -73,7 +73,15 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  _onMp4ComposeButtonClick(BuildContext context) {}
+  _onMp4ComposeButtonClick(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            DemoPlatformView(keyFunction: KeyFunction.mp4Compose),
+      ),
+    );
+  }
 
   void _onCameraRecordButtonClick(BuildContext context) {
     Navigator.push(

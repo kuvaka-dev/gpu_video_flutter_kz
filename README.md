@@ -6,13 +6,14 @@
 ## About
 
 * What is it, what does it do
-    -  Customize filter in your own video
-    -  Record videos, take images with many filters
-    -  Work with flash, camera back of front, ...
-    -  Support landscape or portrait or square camera type
+  -  Customize filter in your own video
+  -  Record videos, take images with many filters
+  -  Work with flash, camera back of front, ...
+  -  Support landscape or portrait or square camera type
 
 * Project status: working/prototype
-  Done 2/3 function
+  Done 3/3 Function
+  Next Clean and Re-Arrange Code
 
 ## Table of contents
 
@@ -31,21 +32,21 @@ Use for instance <https://github.com/ekalinin/github-markdown-toc>:
 ## Installation
 - Add this library into your pubspec.yaml file:
   ```dart
-    gpu_video_flutter_kz: ^0.0.1
+    gpu_video_flutter_kz: ^0.0.4
   ```
 - Open Project Android in new screen
-    - Change your minSDKVersion to 21
-      ```dart
-      defaultConfig {
-          minSdkVersion 21
-      }
-      ```
-    - Add to your build.gradle (Project:android)
-      ```dart
-      maven { 
-        url 'https://jitpack.io' 
-      }
-      ```
+  - Change your minSDKVersion to 21
+    ```dart
+    defaultConfig {
+        minSdkVersion 21
+    }
+    ```
+  - Add to your build.gradle (Project:android)
+    ```dart
+    maven { 
+      url 'https://jitpack.io' 
+    }
+    ```
 ## Usage
 - Movie Preview
   ```dart
@@ -54,44 +55,61 @@ Use for instance <https://github.com/ekalinin/github-markdown-toc>:
         "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
   )
   ```
-    - To use Filter for this video you can use:
+  - To use Filter for this video you can use:
   ```dart
   GpuVideoFlutterKz.filterVideo(FilterType.BILATERAL_BLUR);
   ```
+
+  - Set Filter's Percentage:
+   ```dart
+   GpuVideoFlutterKz.setFilterPercentage(int percent);
+   ```
 - Camera Recorder
-    - Init
+  - Init
   ```dart
   GPUCameraRecord(
         cameraViewType: CameraViewType.square),
   )
   ```
-    * You can change type of camera to portrait or landscape otherwise.
-    - To add filter for your preview camera, just use:
+  * You can change type of camera to portrait or landscape otherwise.
+  - To add filter for your preview camera, just use:
   ```dart
   GpuVideoFlutterKz.filterCameraRecorder(filterType);
   ```
-    - To start record:
+  - To start record:
   ```dart
   GpuVideoFlutterKz.recordCameraVideo();
   ```
-    - To end record:
+  - To end record:
   ```dart
   String videoPath = GpuVideoFlutterKz.stopRecordCameraVideo();
+  // Return of stop record video is video's path
   ```
-    * Return of stop record video is video's path
-    - To switch between front and back camera:
+  - To switch between front and back camera:
   ```dart
   GpuVideoFlutterKz.switchCamera();
   ```
-    - To turn on or off flash:
+  - To turn on or off flash:
   ```dart
   GpuVideoFlutterKz.turnOnOffFlash();
   ```
-    - To capture an image:
+  - To capture an image:
   ```dart
   String imagePath = GpuVideoFlutterKz.captureImage();
+  //Return of this function is image's path
   ```
-    * Return of this function is image's path
+- Mp4 Compose
+  - Get All Video In Gallery:
+    ```dart
+    List<VideoItem> videos = await GpuVideoFlutterKz.getListVideo();
+    // return list of VideoItem (which is in my lib)
+    ```
+  - Start CodeC:
+    ```dart
+    GpuVideoFlutterKz.startCodec(isMute, isFlipHorizontal,
+                isFlipVertical, videoSelectedPath, filterType);
+    // Apply 5 properties to your video and save the new video into your gallery
+    ```
 ### Screenshots
 
 ### Features
@@ -106,8 +124,9 @@ Description, sub-modules organization...
 
 ## Resources (Documentation and other links)
 - https://github.com/MasayukiSuda/GPUVideo-android
-- https://developer.android.com/guide/topics/media/exoplayer\
+- https://developer.android.com/guide/topics/media/exoplayer
 - https://developer.android.com/kotlin/coroutines
+- https://github.com/google/gson
 
 ## License
 

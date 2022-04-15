@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gpu_video_flutter_kz/camera_view_type.dart';
+import 'package:gpu_video_flutter_kz/video_item.dart';
 import 'package:gpu_video_flutter_kz_example/main.dart';
 import 'package:gpu_video_flutter_kz/gpu_movie_preview.dart';
 import 'package:gpu_video_flutter_kz/gpu_camera_record.dart';
@@ -19,6 +22,14 @@ class DemoPlatformView extends StatefulWidget {
 }
 
 class _DemoPlatformViewState extends State<DemoPlatformView> {
+  bool isMute = false;
+  bool isFlipHorizontal = false;
+  bool isFlipVertical = false;
+  List<VideoItem> videos = [];
+  FilterType filterType = FilterType.DEFAULT;
+  String videoSelectedPath = "";
+  bool isButtonStartRecordEnable = false;
+
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(
@@ -38,10 +49,106 @@ class _DemoPlatformViewState extends State<DemoPlatformView> {
             }
           case KeyFunction.mp4Compose:
             {
-              return Container();
+              return _buildMp4Compose();
             }
         }
       },
+    );
+  }
+
+  Scaffold _buildMp4Compose() {
+    _getVideosInGallery();
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      if (isButtonStartRecordEnable) {
+                        GpuVideoFlutterKz.startCodec(isMute, isFlipHorizontal,
+                            isFlipVertical, videoSelectedPath, filterType);
+                      }
+                    },
+                    child: const Text("STARTCODEC !!"),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text("PLAY MOVIE !!"),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    TextButton(
+                        onPressed: () {},
+                        child: const Text("FILTER: FILTER GROUP")),
+                    Checkbox(
+                      value: isMute,
+                      onChanged: (value) {
+                        isMute = value ?? false;
+                      },
+                    ),
+                    const Text("Mute"),
+                    Checkbox(
+                      value: isFlipHorizontal,
+                      onChanged: (value) {
+                        isFlipHorizontal = value ?? false;
+                      },
+                    ),
+                    const Text("Flip horizontal"),
+                    Checkbox(
+                      value: isFlipVertical,
+                      onChanged: (value) {
+                        setState(() {
+                          isFlipVertical = value ?? false;
+                        });
+                      },
+                    ),
+                    const Text("Flip vertical"),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Center(
+                child:
+                    TextButton(onPressed: () {}, child: const Text("Cancel")),
+              ),
+            ),
+            Expanded(
+              flex: 15,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      _onItemVideoClick(index);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      color: Colors.black12,
+                      height: 50,
+                      child: FittedBox(
+                        child: Text(
+                          videos[index].path,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: videos.length,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -138,5 +245,20 @@ class _DemoPlatformViewState extends State<DemoPlatformView> {
   void _onItemClick(FilterType filterType) async {
     String result = await GpuVideoFlutterKz.filterVideo(filterType);
     if (result == "OK") {}
+  }
+
+  void _getVideosInGallery() async {
+    List<VideoItem> list = await GpuVideoFlutterKz.getListVideo();
+    setState(() {
+      videos = list;
+    });
+  }
+
+  void _onItemVideoClick(int index) {
+    log("Item $index Clicked");
+    setState(() {
+      videoSelectedPath = videos[index].path;
+      isButtonStartRecordEnable = true;
+    });
   }
 }

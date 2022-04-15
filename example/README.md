@@ -12,28 +12,27 @@
     -  Support landscape or portrait or square camera type
 
 * Project status: working/prototype
-  Done 2/3 function
+  Done 3/3 Function
+  Next Clean and Re-Arrange Code
 
 ## Table of contents
 
 Use for instance <https://github.com/ekalinin/github-markdown-toc>:
 
-> * [Title / Repository Name](#title--repository-name)
-    >   * [About / Synopsis](#about--synopsis)
-    >   * [Table of contents](#table-of-contents)
+>   * [About](#about)
+>   * [Table of contents](#table-of-contents)
 >   * [Installation](#installation)
 >   * [Usage](#usage)
-      >     * [Features](#features)
->   * [Code](#code)
-      >     * [Content](#content)
-      >     * [Requirements](#requirements)
+>   * [Features](#features)
+>   * [Content](#content)
+>   * [Requirements](#requirements)
 >   * [Resources (Documentation and other links)](#resources-documentation-and-other-links)
 >   * [License](#license)
 
 ## Installation
 - Add this library into your pubspec.yaml file:
   ```dart
-    gpu_video_flutter_kz: ^0.0.1
+    gpu_video_flutter_kz: ^0.0.4
   ```
 - Open Project Android in new screen
     - Change your minSDKVersion to 21
@@ -60,6 +59,11 @@ Use for instance <https://github.com/ekalinin/github-markdown-toc>:
   ```dart
   GpuVideoFlutterKz.filterVideo(FilterType.BILATERAL_BLUR);
   ```
+
+    - Set Filter's Percentage:
+   ```dart
+   GpuVideoFlutterKz.setFilterPercentage(int percent);
+   ```
 - Camera Recorder
     - Init
   ```dart
@@ -79,8 +83,8 @@ Use for instance <https://github.com/ekalinin/github-markdown-toc>:
     - To end record:
   ```dart
   String videoPath = GpuVideoFlutterKz.stopRecordCameraVideo();
+  // Return of stop record video is video's path
   ```
-    * Return of stop record video is video's path
     - To switch between front and back camera:
   ```dart
   GpuVideoFlutterKz.switchCamera();
@@ -92,15 +96,23 @@ Use for instance <https://github.com/ekalinin/github-markdown-toc>:
     - To capture an image:
   ```dart
   String imagePath = GpuVideoFlutterKz.captureImage();
+  //Return of this function is image's path
   ```
-    * Return of this function is image's path
+- Mp4 Compose
+    - Get All Video In Gallery:
+      ```dart
+      List<VideoItem> videos = await GpuVideoFlutterKz.getListVideo();
+      // return list of VideoItem (which is in my lib)
+      ```
+    - Start CodeC:
+      ```dart
+      GpuVideoFlutterKz.startCodec(isMute, isFlipHorizontal,
+                  isFlipVertical, videoSelectedPath, filterType);
+      // Apply 5 properties to your video and save the new video into your gallery
+      ```
 ### Screenshots
 
 ### Features
-
-## Code
-
-[![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=/nuxeo/addons_nuxeo-sample-project-master)](https://qa.nuxeo.org/jenkins/job/nuxeo/job/addons_nuxeo-sample-project-master/)
 
 ### Content
 
@@ -112,9 +124,10 @@ Description, sub-modules organization...
 
 ## Resources (Documentation and other links)
 - https://github.com/MasayukiSuda/GPUVideo-android
-- https://developer.android.com/guide/topics/media/exoplayer\
+- https://developer.android.com/guide/topics/media/exoplayer
 - https://developer.android.com/kotlin/coroutines
+- https://github.com/google/gson
 
 ## License
 
-[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+[Apache License, Version 2.0](https://github.com/lamdev99/gpu_video_flutter_kz/blob/master/LICENSE)

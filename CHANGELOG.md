@@ -9,3 +9,7 @@
 ## 0.0.3
 
 * Add README.md and change some function
+
+## 0.0.4
+
+* Add Mp4 Compose and Filter's Percentage

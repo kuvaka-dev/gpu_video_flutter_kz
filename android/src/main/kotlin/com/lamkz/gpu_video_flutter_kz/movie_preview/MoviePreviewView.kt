@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import com.daasuu.gpuv.egl.filter.GlFilter
 import com.daasuu.gpuv.player.GPUPlayerView
 import com.google.android.exoplayer2.MediaItem
@@ -41,7 +40,7 @@ internal class MoviePreviewView(
     }
 
     init {
-        Log.d("MoviePreviewView","$position")
+        Log.d("MoviePreviewView", "$position")
         creationParams?.let { params ->
             val videoUrl: String = params["videoUrl"] as String
             // SimpleExoPlayer
@@ -60,18 +59,23 @@ internal class MoviePreviewView(
             val filterTypes = FilterType.createFilterList()
             filter = FilterType.createGlFilter(filterTypes[position + 1], context)
             adjuster = FilterType.createFilterAdjuster(filterTypes[position + 1])
-            adjuster?.adjust(filter, 50)
+
             gpuPlayerView.setGlFilter(filter)
             movieWrapperView.setBackgroundColor(Color.CYAN)
             movieWrapperView.addView(gpuPlayerView)
             gpuPlayerView.onResume()
         }
     }
-    fun setFilter(position: Int){
+
+    fun setFilter(position: Int) {
         val filterTypes = FilterType.createFilterList()
         filter = FilterType.createGlFilter(filterTypes[position], context)
         adjuster = FilterType.createFilterAdjuster(filterTypes[position])
         adjuster?.adjust(filter, 50)
         gpuPlayerView.setGlFilter(filter)
+    }
+
+    fun setFilterPercentage(percentFilter: Int) {
+        adjuster?.adjust(filter, percentFilter)
     }
 }

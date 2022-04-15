@@ -18,4 +18,8 @@ class MoviePreviewFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
     fun setPosition(position: Int){
         moviePreviewView.setFilter(position)
     }
+
+    fun setFilterPercentage(percentFilter: Int) {
+        moviePreviewView.setFilterPercentage(percentFilter)
+    }
 }

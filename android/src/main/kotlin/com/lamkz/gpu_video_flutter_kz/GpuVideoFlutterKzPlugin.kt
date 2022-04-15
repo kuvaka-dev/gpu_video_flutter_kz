@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.lamkz.gpu_video_flutter_kz.compose.Mp4ComposeManager
 import com.lamkz.gpu_video_flutter_kz.movie_preview.MoviePreviewFactory
 import com.lamkz.gpu_video_flutter_kz.portrait_preview.PortraitPreviewFactory
 
@@ -32,6 +33,7 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
     private lateinit var binding: FlutterPlugin.FlutterPluginBinding
     private lateinit var moviePreviewFactory: MoviePreviewFactory
     private lateinit var portraitPreviewFactory: PortraitPreviewFactory
+    private lateinit var mp4ComposeManager: Mp4ComposeManager
     private lateinit var activity: Activity
     private var context: Context? = null
 
@@ -39,6 +41,8 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
         binding = flutterPluginBinding
         // init view factory
         moviePreviewFactory = MoviePreviewFactory()
+
+        // register movie preview factory
         binding.platformViewRegistry.registerViewFactory("gpu/movie_preview", moviePreviewFactory)
 
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "gpu_video_flutter_kz")
@@ -48,7 +52,6 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
 
     private fun checkAppPermission() {
         requestListPermission(listPermission)
-
     }
 
     private fun checkSinglePermission(permission: String): Boolean {
@@ -89,9 +92,9 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
         }
 
     }
-    
-    private fun requestListPermission(permissions: Array<out String>){
-        ActivityCompat.requestPermissions(activity,permissions, REQUEST_PERMISSION_CODE)
+
+    private fun requestListPermission(permissions: Array<out String>) {
+        ActivityCompat.requestPermissions(activity, permissions, REQUEST_PERMISSION_CODE)
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
@@ -101,14 +104,19 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
                     result.success("Android ${android.os.Build.VERSION.RELEASE}")
                 }
                 "filterVideo" -> {
-                    val position: Int = call.argument<Int>("position")!!
-                    Log.d("GPUVideoKzPlugin39", "$position")
-                    moviePreviewFactory.setPosition(position)
+                    val positionFilter: Int = call.argument<Int>("position")!!
+                    Log.d("GPUVideoKzPlugin39", "$positionFilter")
+                    moviePreviewFactory.setPosition(positionFilter)
+                    result.success("OK")
+                }
+                "setFilterPercentage" ->{
+                    val percentFilter : Int = call.argument<Int>("percent")!!
+                    moviePreviewFactory.setFilterPercentage(percentFilter)
                     result.success("OK")
                 }
                 "filterCameraRecorder" -> {
-                    val position: Int = call.argument<Int>("position")!!
-                    portraitPreviewFactory.setPosition(position)
+                    val positionFilter: Int = call.argument<Int>("position")!!
+                    portraitPreviewFactory.setPosition(positionFilter)
                     result.success("OK")
                 }
                 "recordCameraVideo" -> {
@@ -132,13 +140,32 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
                     portraitPreviewFactory.captureImage {
                         result.success(it)
                     }
-
+                }
+                "getListVideoInGallery" -> {
+                    mp4ComposeManager.getListVideoInGallery {
+                        result.success(it)
+                    }
+                }
+                "startCodec" -> {
+                    val isMute: Boolean = call.argument<Boolean>("isMute")!!
+                    val isFlipHorizontal: Boolean = call.argument<Boolean>("isFlipHorizontal")!!
+                    val isFlipVertical: Boolean = call.argument<Boolean>("isFlipVertical")!!
+                    val videoSelectedPath: String = call.argument<String>("videoSelectedPath")!!
+                    val positionFilter: Int = call.argument<Int>("filterPosition")!!
+                    mp4ComposeManager.startCodec(
+                        isMute,
+                        isFlipHorizontal,
+                        isFlipVertical,
+                        videoSelectedPath,
+                        positionFilter
+                    )
+                    result.success("OK")
                 }
                 else -> {
                     result.notImplemented()
                 }
             }
-        }catch (ex : Exception){
+        } catch (ex: Exception) {
             Toast.makeText(activity, "$ex", Toast.LENGTH_SHORT).show()
         }
     }
@@ -178,11 +205,10 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
                     }
                 }
             }
-            REQUEST_PERMISSION_CODE ->{
-                permissions?.let { 
-                    it.forEachIndexed{
-                        index,value ->
-                        if(grantResults?.get(index) ?: 1 == PackageManager.PERMISSION_GRANTED){
+            REQUEST_PERMISSION_CODE -> {
+                permissions?.let {
+                    it.forEachIndexed { index, value ->
+                        if (grantResults?.get(index) ?: 1 == PackageManager.PERMISSION_GRANTED) {
                             Toast.makeText(activity, "$value Granted", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -194,13 +220,18 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
 
     override fun onAttachedToActivity(activityBinding: ActivityPluginBinding) {
         activity = activityBinding.activity
-       // activityBinding.addRequestPermissionsResultListener(this)
         activity.let {
             context = it.applicationContext
+            mp4ComposeManager = Mp4ComposeManager(
+                it.applicationContext
+            )
         }
         checkAppPermission()
         portraitPreviewFactory = PortraitPreviewFactory(activity)
-        binding.platformViewRegistry.registerViewFactory("gpu/camera_record_portrait",portraitPreviewFactory)
+        binding.platformViewRegistry.registerViewFactory(
+            "gpu/camera_record_portrait",
+            portraitPreviewFactory
+        )
 
     }
 
@@ -209,7 +240,6 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
         activity = binding.activity
-       // binding.addRequestPermissionsResultListener(this)
         activity.let {
             context = it.applicationContext
         }
