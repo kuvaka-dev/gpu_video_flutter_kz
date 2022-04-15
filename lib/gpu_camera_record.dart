@@ -36,7 +36,8 @@ class GPUCameraRecord extends StatelessWidget {
           cameraHeight = 720;
           break;
         }
-      default: break;
+      default:
+        break;
     }
     Map<String, dynamic> creationParams = <String, dynamic>{
       "videoWidth": videoWidth,

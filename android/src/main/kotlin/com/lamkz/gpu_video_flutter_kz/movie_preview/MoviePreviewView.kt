@@ -6,6 +6,7 @@ import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.daasuu.gpuv.egl.filter.GlFilter
 import com.daasuu.gpuv.player.GPUPlayerView
@@ -52,7 +53,7 @@ internal class MoviePreviewView(
             player!!.prepare()
             player!!.playWhenReady = true
             gpuPlayerView.setSimpleExoPlayer(player)
-            gpuPlayerView.layoutParams = RelativeLayout.LayoutParams(
+            gpuPlayerView.layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )

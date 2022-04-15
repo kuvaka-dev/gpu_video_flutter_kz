@@ -20,7 +20,9 @@ class _CameraPreviewViewState extends State<CameraPreviewView> {
       body: SafeArea(
         child: Stack(
           children: [
-            Positioned.fill(child: Align(alignment: Alignment.center, child: widget.cameraView)),
+            Positioned.fill(
+                child: Align(
+                    alignment: Alignment.center, child: widget.cameraView)),
             Positioned(
               child: ListView.separated(
                 itemCount: FilterType.values.length,

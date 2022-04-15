@@ -1,5 +1,1 @@
-enum CameraViewType{
-  portrait,
-  landscape,
-  square
-}
+enum CameraViewType { portrait, landscape, square }

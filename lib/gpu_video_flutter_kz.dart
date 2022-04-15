@@ -25,30 +25,28 @@ class GpuVideoFlutterKz {
     return result;
   }
 
-  static Future<String> recordCameraVideo() async{
+  static Future<String> recordCameraVideo() async {
     final String result = await _channel.invokeMethod("recordCameraVideo");
     return result;
   }
 
-  static Future<String> stopRecordCameraVideo() async{
+  static Future<String> stopRecordCameraVideo() async {
     final String result = await _channel.invokeMethod("stopRecordCameraVideo");
     return result;
   }
 
-  static Future<String> switchCamera() async{
+  static Future<String> switchCamera() async {
     final String result = await _channel.invokeMethod("switchCamera");
     return result;
   }
 
-  static Future<String> turnOnOffFlash() async{
+  static Future<String> turnOnOffFlash() async {
     final String result = await _channel.invokeMethod("turnOnOffFlash");
     return result;
   }
 
-  static Future<String> captureImage() async{
+  static Future<String> captureImage() async {
     final String result = await _channel.invokeMethod("captureImage");
     return result;
   }
-
-
 }

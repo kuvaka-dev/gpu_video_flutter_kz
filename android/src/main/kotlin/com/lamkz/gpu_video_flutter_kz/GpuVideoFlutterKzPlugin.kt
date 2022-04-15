@@ -95,47 +95,51 @@ class GpuVideoFlutterKzPlugin : FlutterPlugin, MethodCallHandler,
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-        when (call.method) {
-            "getPlatformVersion" -> {
-                result.success("Android ${android.os.Build.VERSION.RELEASE}")
-            }
-            "filterVideo" -> {
-                val position: Int = call.argument<Int>("position")!!
-                Log.d("GPUVideoKzPlugin39", "$position")
-                moviePreviewFactory.setPosition(position)
-                result.success("OK")
-            }
-            "filterCameraRecorder" ->{
-                val position : Int = call.argument<Int>("position")!!
-                portraitPreviewFactory.setPosition(position)
-                result.success("OK")
-            }
-            "recordCameraVideo" ->{
-                portraitPreviewFactory.startRecordVideo()
-                result.success("OK")
-            }
-            "stopRecordCameraVideo" ->{
-                portraitPreviewFactory.stopRecordVideo{
-                    result.success(it)
+        try {
+            when (call.method) {
+                "getPlatformVersion" -> {
+                    result.success("Android ${android.os.Build.VERSION.RELEASE}")
                 }
-            }
-            "switchCamera" ->{
-                portraitPreviewFactory.switchCamera()
-                result.success("OK")
-            }
-            "turnOnOffFlash" ->{
-                portraitPreviewFactory.turnOnOffFlash()
-                result.success("OK")
-            }
-            "captureImage" ->{
-                portraitPreviewFactory.captureImage{
-                    result.success(it)
+                "filterVideo" -> {
+                    val position: Int = call.argument<Int>("position")!!
+                    Log.d("GPUVideoKzPlugin39", "$position")
+                    moviePreviewFactory.setPosition(position)
+                    result.success("OK")
                 }
+                "filterCameraRecorder" -> {
+                    val position: Int = call.argument<Int>("position")!!
+                    portraitPreviewFactory.setPosition(position)
+                    result.success("OK")
+                }
+                "recordCameraVideo" -> {
+                    portraitPreviewFactory.startRecordVideo()
+                    result.success("OK")
+                }
+                "stopRecordCameraVideo" -> {
+                    portraitPreviewFactory.stopRecordVideo {
+                        result.success(it)
+                    }
+                }
+                "switchCamera" -> {
+                    portraitPreviewFactory.switchCamera()
+                    result.success("OK")
+                }
+                "turnOnOffFlash" -> {
+                    portraitPreviewFactory.turnOnOffFlash()
+                    result.success("OK")
+                }
+                "captureImage" -> {
+                    portraitPreviewFactory.captureImage {
+                        result.success(it)
+                    }
 
+                }
+                else -> {
+                    result.notImplemented()
+                }
             }
-            else -> {
-                result.notImplemented()
-            }
+        }catch (ex : Exception){
+            Toast.makeText(activity, "$ex", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -1,6 +1,6 @@
 name: gpu_video_flutter_kz
 description: Customize filter in your own video. Record videos, take images with many filters. Work with flash, camera back of front. Support landscape or portrait or square camera type
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/lamdev99/gpu_video_flutter_kz
 
 environment:

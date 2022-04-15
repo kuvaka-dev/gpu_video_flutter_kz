@@ -1,4 +1,4 @@
-enum FilterType{
+enum FilterType {
   DEFAULT,
   BILATERAL_BLUR,
   BOX_BLUR,

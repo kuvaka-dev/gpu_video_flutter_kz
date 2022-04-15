@@ -18,15 +18,13 @@
 
 Use for instance <https://github.com/ekalinin/github-markdown-toc>:
 
-> * [Title / Repository Name](#title--repository-name)
-    >   * [About / Synopsis](#about--synopsis)
-    >   * [Table of contents](#table-of-contents)
+>   * [About](#about)
+>   * [Table of contents](#table-of-contents)
 >   * [Installation](#installation)
 >   * [Usage](#usage)
-      >     * [Features](#features)
->   * [Code](#code)
-      >     * [Content](#content)
-      >     * [Requirements](#requirements)
+>   * [Features](#features)
+>   * [Content](#content)
+>   * [Requirements](#requirements)
 >   * [Resources (Documentation and other links)](#resources-documentation-and-other-links)
 >   * [License](#license)
 
@@ -98,10 +96,6 @@ Use for instance <https://github.com/ekalinin/github-markdown-toc>:
 
 ### Features
 
-## Code
-
-[![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=/nuxeo/addons_nuxeo-sample-project-master)](https://qa.nuxeo.org/jenkins/job/nuxeo/job/addons_nuxeo-sample-project-master/)
-
 ### Content
 
 Description, sub-modules organization...
@@ -117,4 +111,4 @@ Description, sub-modules organization...
 
 ## License
 
-[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+[Apache License, Version 2.0](https://github.com/lamdev99/gpu_video_flutter_kz/blob/master/LICENSE)
